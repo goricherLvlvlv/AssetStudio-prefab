@@ -33,5 +33,6 @@ namespace AssetStudio
             var m_Layer = reader.ReadInt32();
             m_Name = reader.ReadAlignedString();
         }
+
     }
 }

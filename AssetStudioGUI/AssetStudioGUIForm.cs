@@ -734,6 +734,9 @@ namespace AssetStudioGUI
                     case AnimationClip _:
                         StatusStripUpdate("Can be exported with Animator or Objects");
                         break;
+                    case Transform m_Transform:
+                        PreviewTransform(m_Transform);
+                        break;
                     default:
                         var str = assetItem.Asset.Dump();
                         if (str != null)
@@ -1213,6 +1216,18 @@ namespace AssetStudioGUI
             {
                 toolStripStatusLabel1.Text = statusText;
             }
+        }
+
+        private void PreviewTransform(Transform transform)
+        {
+            var str = transform.Dump();
+
+            str += "\n";
+
+            str += transform.node?.Dump();
+
+            textPreviewBox.Text = str;
+            textPreviewBox.Visible = true;
         }
 
         private void ResetForm()

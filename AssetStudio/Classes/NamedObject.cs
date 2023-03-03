@@ -11,7 +11,10 @@ namespace AssetStudio
 
         protected NamedObject(ObjectReader reader) : base(reader)
         {
-            m_Name = reader.ReadAlignedString();
+            if (reader != null)
+            { 
+                m_Name = reader.ReadAlignedString();
+            }
         }
     }
 }

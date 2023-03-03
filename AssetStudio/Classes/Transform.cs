@@ -13,6 +13,8 @@ namespace AssetStudio
         public PPtr<Transform>[] m_Children;
         public PPtr<Transform> m_Father;
 
+        public PrefabNode node;
+
         public Transform(ObjectReader reader) : base(reader)
         {
             m_LocalRotation = reader.ReadQuaternion();
@@ -26,6 +28,14 @@ namespace AssetStudio
                 m_Children[i] = new PPtr<Transform>(reader);
             }
             m_Father = new PPtr<Transform>(reader);
+        }
+
+        public void BuildPrefab()
+        {
+            if (node == null)
+            {
+                node = PrefabUtil.Instance.FillTransform(this);
+            }
         }
     }
 }

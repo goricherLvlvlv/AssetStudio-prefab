@@ -154,6 +154,15 @@ namespace AssetStudioGUI
                     {
                         case GameObject m_GameObject:
                             assetItem.Text = m_GameObject.m_Name;
+                            exportable = true;
+                            break;
+                        case Transform m_Transform:
+                            {
+                                m_Transform.m_GameObject.TryGet(out var gameObject);
+                                assetItem.Text = gameObject.m_Name + " - [Transform]";
+                                m_Transform.BuildPrefab();
+                                exportable = true;
+                            }
                             break;
                         case Texture2D m_Texture2D:
                             if (!string.IsNullOrEmpty(m_Texture2D.m_StreamData?.path))
@@ -187,11 +196,13 @@ namespace AssetStudioGUI
                             exportable = true;
                             break;
                         case Animator m_Animator:
-                            if (m_Animator.m_GameObject.TryGet(out var gameObject))
                             {
-                                assetItem.Text = gameObject.m_Name;
+                                if (m_Animator.m_GameObject.TryGet(out var gameObject))
+                                {
+                                    assetItem.Text = gameObject.m_Name;
+                                }
+                                exportable = true;
                             }
-                            exportable = true;
                             break;
                         case MonoBehaviour m_MonoBehaviour:
                             if (m_MonoBehaviour.m_Name == "" && m_MonoBehaviour.m_Script.TryGet(out var m_Script))
@@ -240,7 +251,10 @@ namespace AssetStudioGUI
                     }
                     Progress.Report(++i, objectCount);
                 }
+                PrefabUtil.Instance.Clear();
             }
+
+
             foreach ((var pptr, var container) in containers)
             {
                 if (pptr.TryGet(out var obj))

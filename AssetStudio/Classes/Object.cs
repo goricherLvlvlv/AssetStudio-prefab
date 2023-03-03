@@ -17,19 +17,23 @@ namespace AssetStudio
         public Object(ObjectReader reader)
         {
             this.reader = reader;
-            reader.Reset();
-            assetsFile = reader.assetsFile;
-            type = reader.type;
-            m_PathID = reader.m_PathID;
-            version = reader.version;
-            buildType = reader.buildType;
-            platform = reader.platform;
-            serializedType = reader.serializedType;
-            byteSize = reader.byteSize;
 
-            if (platform == BuildTarget.NoTarget)
+            if (reader != null)
             {
-                var m_ObjectHideFlags = reader.ReadUInt32();
+                reader.Reset();
+                assetsFile = reader.assetsFile;
+                type = reader.type;
+                m_PathID = reader.m_PathID;
+                version = reader.version;
+                buildType = reader.buildType;
+                platform = reader.platform;
+                serializedType = reader.serializedType;
+                byteSize = reader.byteSize;
+
+                if (platform == BuildTarget.NoTarget)
+                {
+                    var m_ObjectHideFlags = reader.ReadUInt32();
+                }
             }
         }
 
